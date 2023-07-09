@@ -1,0 +1,27 @@
+ul li {
+    display: inline;
+    margin: 5px 5px;
+}
+ul li button {
+    color: white;
+    margin: auto;
+    background-color: #2C2C32;
+    cursor: pointer;
+}
+ul button:hover {
+    background-color: #696969;
+    color: orange;
+}
+button {
+    display: inline;
+    margin: 5px 5px;
+    color: white;
+    padding: 5px;
+    border: 1px solid #2C2C32;
+    background-color: #2C2C32;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #696969;
+    color: orange;
+}
