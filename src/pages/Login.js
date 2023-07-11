@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { auth, provider } from "../firebase-config";
-import { signInWithPopup, createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithPopup, createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword, signInAnonymously } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 function Login({ setIsAuth }) {
+
+    // email-password auth
 
     const [registerEmail, setRegisterEmail] = useState("");
     const [registerPassword, setRegisterPassword] = useState("");
@@ -40,6 +42,8 @@ function Login({ setIsAuth }) {
 
     let navigate = useNavigate();
 
+    // google auth
+
     const signInWithGoogle = () => {
         signInWithPopup(auth, provider).then((result) => {
             localStorage.setItem("isAuth", true);
@@ -47,6 +51,27 @@ function Login({ setIsAuth }) {
             navigate("/");
         })
     }
+
+    // anonymous auth
+
+    const loginAnon = async () => {
+        try {
+            const user = await signInAnonymously(auth);
+            console.log(user);
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    const logoutAnon = async () => {
+        signOut(auth).then(() => {
+                console.log("Signed out successfully")
+            }).catch((error) => {
+        });
+    }
+
+    // return
+
     return (
         <>
         <div>
@@ -85,8 +110,20 @@ function Login({ setIsAuth }) {
         </div>
 
         <div className="loginPage">
-            <p>Sign In With Google to Continue</p>
+            <h3>Sign In With Google to Continue</h3>
             <button className="login-with-google-btn" onClick={signInWithGoogle}>Sign in with Google</button>
+        </div>
+           
+        <div className="anonymous_authentication">
+        <h3>Anonymous Authentication</h3>
+           <ul>
+                <li>
+                    <a href="#" onClick={loginAnon}>Login Anonymously</a>
+                </li>
+                <li>
+                    <a href="#" onClick={logoutAnon}>Logout</a>
+                </li>
+           </ul>
         </div>
         </>
     )

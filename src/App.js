@@ -25,7 +25,7 @@ function App() {
         <Link to="/"> Home </Link>
         <Link to="/movies"> Movies </Link>
         <Link to="/actors"> Actors </Link>
-        {!isAuth ? <Link to="/login"> Login </Link> : <button onClick={signUserOut}>Log Out</button>}
+        <Link to="/login"> Profile </Link>
       </nav>
       <Routes>
         <Route path='/' element={<Home/>} />
