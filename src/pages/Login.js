@@ -16,6 +16,7 @@ function Login({ setIsAuth }) {
 
     onAuthStateChanged(auth, (currentUser) => {
         setUser(currentUser);
+        setAuthType(currentUser?.isAnonymous ? "anonymous" : "email");
     });
 
     const register = async () => {
@@ -37,11 +38,6 @@ function Login({ setIsAuth }) {
         }
     }
 
-    const logout = async () => {
-        localStorage.removeItem("isAuth");
-        await signOut(auth);
-    }
-
     let navigate = useNavigate();
 
     // google auth
@@ -52,11 +48,6 @@ function Login({ setIsAuth }) {
             setIsAuth(true);
             navigate("/");
         })
-    }
-
-    const logoutGoogle = async () => {
-        localStorage.removeItem("isAuth");
-        await signOut(auth);
     }
 
     // anonymous auth
@@ -71,12 +62,15 @@ function Login({ setIsAuth }) {
         }
     }
 
-    const logoutAnon = async () => {
-        signOut(auth).then(() => {
-                localStorage.removeItem("isAuth");
-                console.log("Signed out successfully")
-            }).catch((error) => {
-        });
+    // logout
+
+    const [authType, setAuthType] = useState("");
+
+
+    const logout = async () => {
+        localStorage.removeItem("isAuth");
+        console.log("Signed out successfully");
+        await signOut(auth);
     }
 
     // return
@@ -111,17 +105,9 @@ function Login({ setIsAuth }) {
            <button onClick={login}> Login </button> 
         </div>
 
-        <div>
-        <h4> User Logged In: </h4>
-        {user?.email}
-
-        <button onClick={logout}> Sign Out </button>
-        </div>
-
         <div className="loginPage">
             <h3>Sign In With Google to Continue</h3>
             <button className="login-with-google-btn" onClick={signInWithGoogle}>Sign in with Google</button>
-            <button onClick={logoutGoogle}> Sign Out </button>
         </div>
            
         <div className="anonymous_authentication">
@@ -130,10 +116,13 @@ function Login({ setIsAuth }) {
                 <li>
                     <a href="#" onClick={loginAnon}>Login Anonymously</a>
                 </li>
-                <li>
-                    <a href="#" onClick={logoutAnon}>Logout</a>
-                </li>
            </ul>
+        </div>
+        <div>
+            <h4> User Logged In: </h4>
+            {authType === "anonymous" ? "anon" : user?.email}
+
+            <button onClick={logout}> Logout </button>
         </div>
         </>
     )

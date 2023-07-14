@@ -10,19 +10,6 @@ const isLoggedIn = () => {
 const ProtectedRoute = () => {
   
     return isLoggedIn() ? <Outlet /> : <Navigate to="/login"/>
-
-    // if (isLoggedIn()) {
-    //     return <Outlet/>
-    // } else {
-    //     return <Navigate to="/login" />
-    // }
-
-
-    // let auth = {'token':true};
-
-    // return (
-    //     auth.token ? <Outlet/> : <Navigate to="/login"/>
-    // );
 }
 
 export default ProtectedRoute;
