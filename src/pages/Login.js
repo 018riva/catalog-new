@@ -29,6 +29,7 @@ function Login({ setIsAuth }) {
 
     const login = async () => {
         try {
+            localStorage.setItem("isAuth", true);
             const user = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
             console.log(user);
         } catch (error) {
@@ -37,6 +38,7 @@ function Login({ setIsAuth }) {
     }
 
     const logout = async () => {
+        localStorage.removeItem("isAuth");
         await signOut(auth);
     }
 
@@ -52,10 +54,16 @@ function Login({ setIsAuth }) {
         })
     }
 
+    const logoutGoogle = async () => {
+        localStorage.removeItem("isAuth");
+        await signOut(auth);
+    }
+
     // anonymous auth
 
     const loginAnon = async () => {
         try {
+            localStorage.setItem("isAuth", true);
             const user = await signInAnonymously(auth);
             console.log(user);
         } catch (error) {
@@ -65,6 +73,7 @@ function Login({ setIsAuth }) {
 
     const logoutAnon = async () => {
         signOut(auth).then(() => {
+                localStorage.removeItem("isAuth");
                 console.log("Signed out successfully")
             }).catch((error) => {
         });
@@ -112,6 +121,7 @@ function Login({ setIsAuth }) {
         <div className="loginPage">
             <h3>Sign In With Google to Continue</h3>
             <button className="login-with-google-btn" onClick={signInWithGoogle}>Sign in with Google</button>
+            <button onClick={logoutGoogle}> Sign Out </button>
         </div>
            
         <div className="anonymous_authentication">

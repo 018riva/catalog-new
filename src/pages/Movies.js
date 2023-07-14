@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { TableMovies } from "./table/TableMovies";
 import { Pagination } from './table/Pagination';
-import "./table/pagination-styles.css"
+import "./table/pagination-styles.css";
+
 
 const Movies = () => {
   const [filmsData, setFilmsData] = useState([]);

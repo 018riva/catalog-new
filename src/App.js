@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import { useState } from 'react';
 import { signOut } from "firebase/auth";
 import { auth } from "./firebase-config";
+import ProtectedRoute from './pages/ProtectedRoute';
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
@@ -29,7 +30,10 @@ function App() {
       </nav>
       <Routes>
         <Route path='/' element={<Home/>} />
-        <Route path='/movies' element={<Movies/>} />
+        <Route element={<ProtectedRoute/>}>
+          <Route path='/movies' element={<Movies/>} />
+        </Route>
+        
         <Route path='/Actors' element={<Actors/>} />
         <Route path='/login' element={<Login setIsAuth={setIsAuth}/>} />        
       </Routes>
