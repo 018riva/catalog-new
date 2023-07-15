@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Movies from "./pages/Movies";
 import Actors from "./pages/Actors";
 import Login from "./pages/Login";
+import Users from "./Users";
 import { useState } from 'react';
 import { signOut } from "firebase/auth";
 import { auth } from "./firebase-config";
@@ -27,15 +28,16 @@ function App() {
         <Link to="/movies"> Movies </Link>
         <Link to="/actors"> Actors </Link>
         <Link to="/login"> Profile </Link>
+        <Link to="/users"> Users </Link>
       </nav>
       <Routes>
         <Route path='/' element={<Home/>} />
         <Route element={<ProtectedRoute/>}>
           <Route path='/movies' element={<Movies/>} />
         </Route>
-        
         <Route path='/Actors' element={<Actors/>} />
-        <Route path='/login' element={<Login setIsAuth={setIsAuth}/>} />        
+        <Route path='/login' element={<Login/>} />
+        <Route path='/users' element={<Users/>} />         
       </Routes>
     </Router>
   );
