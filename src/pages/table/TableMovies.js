@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useTable, useFilters, useSortBy } from "react-table";
-import "./table-styles.css";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Checkbox from '@mui/material/Checkbox';
 
 const TableMovies = ({ columns, data }) => {
   const [titleFilter, setTitleFilter] = useState("");
@@ -55,105 +58,131 @@ const TableMovies = ({ columns, data }) => {
 
   return (
     <>
-      <div>
-        <label htmlFor="titleFilter">Search Title:</label>
-        <input
+
+<Box sx={{ textAlign: "center",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexWrap: "wrap",
+              margin: "1em 1em",
+              border: "1px solid #0288d1"
+          }}>
+      <Box sx={{ margin: "5px"}}>
+        <Typography variant="h6" gutterBottom sx={{ textDecoration: "underline #0288d1"}}>
+          Search Title:
+        </Typography>
+        <TextField
           id="titleFilter"
           type="text"
           placeholder="Search by title"
           value={titleFilter}
           onChange={handleTitleFilterChange}
         />
-      </div>
-      <div>
-        <label htmlFor="idFilter">Search ID:</label>
-        <input
+      </Box>
+      <Box sx={{ margin: "5px"}}>
+        <Typography variant="h6" gutterBottom sx={{ textDecoration: "underline #0288d1"}}>
+          Search ID:
+        </Typography>
+        <TextField
           id="idFilter"
           type="text"
           placeholder="Search by ID"
           value={idFilter}
           onChange={handleIdFilterChange}
         />
-      </div>
-      <div>
-        <label htmlFor="yearFilter">Search Year:</label>
-        <input
+      </Box>
+      <Box sx={{ margin: "5px"}}>
+        <Typography variant="h6" gutterBottom sx={{ textDecoration: "underline #0288d1"}}>
+          Search Year:
+        </Typography>
+        <TextField
           id="yearFilter"
           type="text"
           placeholder="Search by Year"
           value={yearFilter}
           onChange={handleYearFilterChange}
         />
-      </div>
-      <div>
-        <label htmlFor="runtimeFilter">Search Runtime:</label>
-        <input
+      </Box>
+      <Box sx={{ margin: "5px"}}>
+        <Typography variant="h6" gutterBottom sx={{ textDecoration: "underline #0288d1"}}>
+          Search Runtime:
+        </Typography>
+        <TextField
           id="runtimeFilter"
           type="text"
           placeholder="Search by Runtime"
           value={runtimeFilter}
           onChange={handleRuntimeFilterChange}
         />
-      </div>
-      <div className="column-list">
-        <span>Visible Columns:</span>
+      </Box>
+    </Box>
+
+    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <Typography variant="h6" gutterBottom sx={{ textDecoration: "underline #0288d1" }}>
+          Visible Columns:
+        </Typography>
         {headerGroups.map((headerGroup) =>
           headerGroup.headers.map((column) => (
-            <label key={column.id}>
-              <input
-                type="checkbox"
+            <Box
+              key={column.id}
+              sx={{ display: "flex", alignItems: "center", marginLeft: "10px" }}
+            >
+              <Checkbox
                 checked={!hiddenColumns.includes(column.id)}
                 onChange={() => handleColumnToggle(column.id)}
               />
-              {column.render("Header")}
-            </label>
+              <Typography>{column.render("Header")}</Typography>
+            </Box>
           ))
         )}
-      </div>
-      <table className="table" {...getTableProps()}>
-        <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => {
-                if (hiddenColumns.includes(column.id)) {
-                  return null;
-                }
-                return (
-                  <th
-                    key={column.id}
-                    className="table-header"
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
-                  >
-                    {column.render("Header")}
-                    <span>
-                      {column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : ""}
-                    </span>
-                  </th>
-                );
-              })}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
-            prepareRow(row);
-            return (
-              <tr key={row.id} {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  if (hiddenColumns.includes(cell.column.id)) {
+      </Box>
+
+      <TableContainer>
+        <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table" {...getTableProps()}>
+          <TableHead>
+            {headerGroups.map((headerGroup) => (
+              <TableRow key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => {
+                  if (hiddenColumns.includes(column.id)) {
                     return null;
                   }
                   return (
-                    <td key={cell.column.id} className="table-cell" {...cell.getCellProps()}>
-                      {cell.render("Cell")}
-                    </td>
+                    <TableCell sx={{ backgroundColor: "#0288d1" }}
+                      key={column.id}
+                      className="table-header"
+                      {...column.getHeaderProps(column.getSortByToggleProps())}
+                    >
+                      {column.render("Header")}
+                      <span>
+                        {column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : ""}
+                      </span>
+                    </TableCell>
                   );
                 })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+              </TableRow>
+            ))}
+          </TableHead>
+          <TableBody {...getTableBodyProps()}>
+            {rows.map((row) => {
+              prepareRow(row);
+              return (
+                <TableRow key={row.id} {...row.getRowProps()}>
+                  {row.cells.map((cell) => {
+                    if (hiddenColumns.includes(cell.column.id)) {
+                      return null;
+                    }
+                    return (
+                      <TableCell key={cell.column.id} className="table-cell" {...cell.getCellProps()}>
+                        {cell.render("Cell")}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 };

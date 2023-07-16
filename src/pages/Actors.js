@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { TableActors } from "./table/TableActors";
 import { Pagination } from './table/Pagination';
-import "./table/pagination-styles.css";
+import { Button } from '@mui/material';
 
 const Actors = () => {
   const [actorsData, setActorsData] = useState([]);
@@ -57,18 +57,30 @@ const Actors = () => {
     <>
       <TableActors columns={columns} data={currentItems} />
       {!showAll && (
+        <Button
+          variant="contained"
+          onClick={handleShowAll}
+          style={{ marginLeft: '1rem', marginTop: '1rem' }}
+        >
+          Show All
+        </Button>
+      )}
+      {showAll && (
+        <Button
+          variant="contained"
+          onClick={handleShowLess}
+          style={{ marginLeft: '1rem', marginTop: '1rem' }}
+        >
+          Show Less
+        </Button>
+      )}
+      {!showAll && (
         <Pagination
           itemsPerPage={itemsPerPage}
           totalItems={actorsData.length}
           currentPage={currentPage}
           onPageChange={handlePageChange}
         />
-      )}
-      {!showAll && (
-        <button onClick={handleShowAll}>Show All</button>
-      )}
-      {showAll && (
-        <button onClick={handleShowLess}>Show Less</button>
       )}
     </>
   );

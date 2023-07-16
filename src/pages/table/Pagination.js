@@ -1,4 +1,5 @@
 import React from 'react';
+import { Pagination as MuiPagination, PaginationItem, Box } from '@mui/material';
 
 const Pagination = ({ itemsPerPage, totalItems, currentPage, onPageChange }) => {
   const pageNumbers = [];
@@ -31,49 +32,21 @@ const Pagination = ({ itemsPerPage, totalItems, currentPage, onPageChange }) => 
   };
 
   return (
-    <ul className="pagination">
-      <li>
-        <button onClick={() => handleClick(1)} disabled={currentPage === 1}>
-          First
-        </button>
-      </li>
-      <li>
-        <button
-          onClick={() => handleClick(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </button>
-      </li>
-      {pageNumbers
-        .slice(startPage - 1, endPage)
-        .map((pageNumber) => (
-          <li key={pageNumber}>
-            <button
-              onClick={() => handleClick(pageNumber)}
-              className={currentPage === pageNumber ? 'active' : ''}
-            >
-              {pageNumber}
-            </button>
-          </li>
-        ))}
-      <li>
-        <button
-          onClick={() => handleClick(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </button>
-      </li>
-      <li>
-        <button
-          onClick={() => handleClick(totalPages)}
-          disabled={currentPage === totalPages}
-        >
-          Last
-        </button>
-      </li>
-    </ul>
+    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+      <MuiPagination
+        count={totalPages}
+        page={currentPage}
+        onChange={(event, page) => handleClick(page)}
+        renderItem={(item) => (
+          <PaginationItem
+            component="button"
+            onClick={() => handleClick(item.page)}
+            disabled={item.page === currentPage}
+            {...item}
+          />
+        )}
+      />
+    </Box>
   );
 };
 

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { TableMovies } from "./table/TableMovies";
 import { Pagination } from './table/Pagination';
-import "./table/pagination-styles.css";
-
+import { Button } from '@mui/material';
 
 const Movies = () => {
   const [filmsData, setFilmsData] = useState([]);
@@ -59,18 +58,30 @@ const Movies = () => {
     <>
       <TableMovies columns={columns} data={currentItems} />
       {!showAll && (
-        <Pagination
-          itemsPerPage={itemsPerPage}
-          totalItems={filmsData.length}
-          currentPage={currentPage}
-          onPageChange={handlePageChange}
-        />
-      )}
-      {!showAll && (
-        <button onClick={handleShowAll}>Show All</button>
+        <>
+          <Button
+            variant="contained"
+            onClick={handleShowAll}
+            style={{ marginLeft: '1rem', marginTop: '1rem' }}
+          >
+            Show All
+          </Button>
+          <Pagination
+            itemsPerPage={itemsPerPage}
+            totalItems={filmsData.length}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+          />
+        </>
       )}
       {showAll && (
-        <button onClick={handleShowLess}>Show Less</button>
+        <Button
+          variant="contained"
+          onClick={handleShowLess}
+          style={{ marginLeft: '1rem', marginTop: '1rem' }}
+        >
+          Show Less
+        </Button>
       )}
     </>
   );
